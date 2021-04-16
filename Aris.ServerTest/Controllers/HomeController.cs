@@ -7,13 +7,13 @@ using Aris.ServerTest.Filters;
 
 namespace Aris.ServerTest.Controllers
 {
-    
+
     [ReturnUrlFromRequest]
     public class HomeController : BaseController
     {
         private readonly Services.IKoreApiGameService _gameService;
 
-        public HomeController(Services.IKoreApiGameService gameService) 
+        public HomeController(Services.IKoreApiGameService gameService)
         {
             _gameService = gameService;
         }
@@ -23,13 +23,27 @@ namespace Aris.ServerTest.Controllers
             var viewModel = new ViewModels.GamesListViewModel();
             var games = await _gameService.GetGamesAsync(GetAuthToken(), returnUrl);
 
-            //Task 4. Ordered the list to 'Category', then by 'Platform', then by 'Name'
-            viewModel.Games = games.OrderBy(g => g.Category)
-                .ThenBy(g => g.Platform)
-                .ThenBy(g => g.Name);
+            //Task 5, check is catFilyer is empty, then display all games, else display by category selected.
+            if (string.IsNullOrEmpty(catFilter))
+            {
+                viewModel.Games = games.OrderBy(g => g.Category)
+                    .ThenBy(g => g.Platform)
+                    .ThenBy(g => g.Name);
+            }
+            else
+            {
+                viewModel.Games = games.Where(g => g.Category == catFilter)
+                    .OrderBy(g => g.Category)
+                    .ThenBy(g => g.Platform)
+                    .ThenBy(g => g.Name);
+            }
 
+            //Task 5. Add list of categories from games list
+            viewModel.Categories = games.Select(c => new { c.Category })
+                                                                .Distinct().Select(c => c.Category);
             return View(viewModel);
         }
+
 
         public async Task<IActionResult> Details(string game, string returnUrl)
         {

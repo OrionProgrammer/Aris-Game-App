@@ -4,18 +4,39 @@
     ViewData["Title"] = "Games List";
 }
 
+
+<!--Task 5   had to go with JavaScript as the JQuery is not wired up-->
+<script type="text/javascript">
+
+    function onCategoryChange() {
+        var c = document.getElementById('category-filter').value;
+        window.location.href = '?catFilter=' + c;
+    }
+
+</script>
+
+
 <div class="row">
 
     <div class="col-12 col-sm-4">
         <h2>Games</h2>
     </div>
 
+
+
     <div class="col-12 col-sm-8">
         <form id="filter-form" asp-controller="Home" asp-action="Index" method="post" class="form-inline float-right">
 
             <div class="form-group">
                 <label class="my-1 mr-2" for="category-filter">Category</label>
-                <select id="category-filter" class="custom-select"></select>
+                <select id="category-filter" class="custom-select" onchange="onCategoryChange();">
+                    <option value="">Select a category</option>
+
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <option value="@cat">@cat</option>
+                    }
+                </select>
             </div>
 
         </form>
@@ -39,51 +60,51 @@
         <tbody>
             @foreach (var game in Model.Games)
             {
-            <tr>
-                <td>
+                <tr>
+                    <td>
 
-                    @if (game.PlayGameLink != null)
-                    {
-                        <a href="@game.PlayGameLink">@game.Name</a>
-                    }
-                    else
-                    {
-                        @game.Name
-                    }
+                        @if (game.PlayGameLink != null)
+                        {
+                            <a href="@game.PlayGameLink">@game.Name</a>
+                        }
+                        else
+                        {
+                            @game.Name
+                        }
 
 
-                    <!--Task 2 complete-->
-                    @if (game.Medal != null) // check if game.Medal is not null.  I used this instead of add ? to each conditional check below.
-                    {
-                        if (game.Medal.Level == 0)
+                        <!--Task 2 complete-->
+                        @if (game.Medal != null) // check if game.Medal is not null.  I used this instead of add ? to each conditional check below.
                         {
-                            <span class="badge blue-medal">*</span>
+                            if (game.Medal.Level == 0)
+                            {
+                                <span class="badge blue-medal">*</span>
+                            }
+                            else if (game.Medal.Level == 1)
+                            {
+                                <span class="badge bronze-medal">*</span>
+                            }
+                            else if (game.Medal.Level == 2)
+                            {
+                                <span class="badge silver-medal">*</span>
+                            }
+                            else if (game.Medal.Level == 3)
+                            {
+                                <span class="badge gold-medal">*</span>
+                            }
+                            else if (game.Medal.Level == 3)
+                            {
+                                <span class="badge diamond-medal">*</span>
+                            }
                         }
-                        else if (game.Medal.Level == 1)
-                        {
-                            <span class="badge bronze-medal">*</span>
-                        }
-                        else if (game.Medal.Level == 2)
-                        {
-                            <span class="badge silver-medal">*</span>
-                        }
-                        else if (game.Medal.Level == 3)
-                        {
-                            <span class="badge gold-medal">*</span>
-                        }
-                        else if (game.Medal.Level == 3)
-                        {
-                            <span class="badge diamond-medal">*</span>
-                        }
-                    }
 
-                    (<a class="info-link" href="#" data-url="Home/Details?game=@game.Base64GameLink">Info</a>)
-                </td>
-                <td>@game.Category</td>
-                <td>@game.Provider</td>
-                <td>@game.Platform</td>
-                <td>free_spins</td>
-            </tr>
+                        (<a class="info-link" href="#" data-url="Home/Details?game=@game.Base64GameLink">Info</a>)
+                    </td>
+                    <td>@game.Category</td>
+                    <td>@game.Provider</td>
+                    <td>@game.Platform</td>
+                    <td>free_spins</td>
+                </tr>
             }
 
         </tbody>
@@ -91,6 +112,7 @@
 
 </div>
 
+
 @section Scripts {
-    <script src="~/js/games.js"></script>
+    <script src="js/games.j_"></script>
 }
