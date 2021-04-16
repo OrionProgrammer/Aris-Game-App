@@ -51,26 +51,30 @@
                         }
 
 
-                        @if (game.Medal.Level == 0)
+                        <!--Task 2 complete-->
+                        @if (game.Medal != null) // check if game.Medal is not null.  I used this instead of add ? to each conditional check below.
                         {
+                            if (game.Medal.Level == 0)
+                            {
                             <span class="badge blue-medal">*</span>
-                        }
-                        else if (game.Medal.Level == 1)
-                        {
+                            }
+                            else if (game.Medal.Level == 1)
+                            {
                             <span class="badge bronze-medal">*</span>
-                        }
-                        else if (game.Medal.Level == 2)
-                        {
+                            }
+                            else if (game.Medal.Level == 2)
+                            {
                             <span class="badge silver-medal">*</span>
-                        }
-                        else if (game.Medal.Level == 3)
-                        {
+                            }
+                            else if (game.Medal.Level == 3)
+                            {
                             <span class="badge gold-medal">*</span>
-                        }
-                        else if (game.Medal.Level == 3)
-                        {
+                            }
+                            else if (game.Medal.Level == 3)
+                            {
                             <span class="badge diamond-medal">*</span>
-                        }
+                                }
+                            }
 
                         (<a class="info-link" href="#" data-url="Home/Details?game=@game.Base64GameLink">Info</a>)
                     </td>
