@@ -37,7 +37,8 @@ namespace Aris.ServerTest.Services
 
             await CheckResponseForErrorAsync(response);
 
-            var data = response.Content.ReadAsStringAsync();
+            //Task 1 complete. add await to following async code
+            var data = await response.Content.ReadAsStringAsync();  
             var games = JsonConvert.DeserializeObject<KoreGames>(data);
 
             return games.Games;
